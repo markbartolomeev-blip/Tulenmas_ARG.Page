@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новогодний выбор сложности АРГ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2e38 0%, #1a5a6c 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Снег */
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5em;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+        
+        /* Контейнер */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            min-height: 100vh;
+        }
+        
+        /* Заголовок */
+        .header {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            position: relative;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .header::before, .header::after {
+            content: "❄";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            animation: spin 3s linear infinite;
+        }
+        
+        .header::before {
+            left: 10px;
+        }
+        
+        .header::after {
+            right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+        
+        /* Контейнер кнопок */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Элемент кнопки */
+        .button-item {
+            position: relative;
+        }
+        
+        /* Кнопки */
+        .button {
+            padding: 25px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Легкая кнопка */
+        .button-easy {
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+            color: white;
+            border: 2px solid #81C784;
+        }
+        
+        .button-easy:hover {
+            background: linear-gradient(145deg, #66BB6A, #388E3C);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .button-easy:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Неактивные кнопки */
+        .button-disabled {
+            background: linear-gradient(145deg, #616161, #424242);
+            color: #bdbdbd;
+            cursor: not-allowed;
+            border: 2px solid #9e9e9e;
+        }
+        
+        /* Подписи */
+        .button-text {
+            font-size: 1rem;
+            margin-top: 10px;
+            text-align: center;
+            color: #e0e0e0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Тюленчик */
+        .seal-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 3;
+            display: flex;
+            align-items: flex-end;
+            transition: transform 0.2s ease-out;
+        }
+        
+        .seal {
+            font-size: 4rem;
+            margin-right: 10px;
+            animation: bounce 2s infinite;
+        }
+        
+        .speech-bubble {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 20px;
+            max-width: 250px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+        
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            bottom: 20px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: rgba(255, 255, 255, 0.9);
+            border-left: 0;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Елка */
+        .tree {
+            position: fixed;
+            bottom: 0;
+            right: 5%;
+            width: 150px;
+            height: 200px;
+            z-index: 1;
+        }
+        
+        .tree-top {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 80px solid #2E7D32;
+        }
+        
+        .tree-middle {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 70px solid transparent;
+            border-right: 70px solid transparent;
+            border-bottom: 100px solid #388E3C;
+        }
+        
+        .tree-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 90px solid transparent;
+            border-right: 90px solid transparent;
+            border-bottom: 120px solid #4CAF50;
+        }
+        
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: #5D4037;
+        }
+        
+        /* Дополнительный контент для прокрутки */
+        .extra-content {
+            height: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .extra-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #e0f7fa;
+        }
+        
+        .extra-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #b2ebf2;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 2.5rem;
+            }
+            
+            .button {
+                font-size: 1.5rem;
+                padding: 20px;
+            }
+            
+            .tree {
+                display: none;
+            }
+            
+            .seal-container {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .speech-bubble {
+                max-width: 200px;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .seal {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                font-size: 2rem;
+            }
+            
+            .button {
+                font-size: 1.3rem;
+                padding: 18px;
+            }
+            
+            .seal {
+                font-size: 2.5rem;
+            }
+            
+            .speech-bubble {
+                max-width: 160px;
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Снег -->
+    <div class="snow" id="snow"></div>
+    
+    <!-- Тюленчик -->
+    <div class="seal-container" id="seal">
+        <div class="seal">🦭</div>
+        <div class="speech-bubble">Проходи ARG, зарабатывай TulenmasCandy и получай призы!</div>
+    </div>
+    
+    <!-- Елка -->
+    <div class="tree">
+        <div class="tree-top"></div>
+        <div class="tree-middle"></div>
+        <div class="tree-bottom"></div>
+        <div class="tree-trunk"></div>
+    </div>
+    
+    <!-- Основной контент -->
+    <div class="container">
+        <h1 class="header">Выбери Сложность АРГ</h1>
+        
+        <div class="button-container">
+            <!-- Легкая сложность -->
+            <div class="button-item">
+                <button class="button button-easy" onclick="openEasySite()">Легкая</button>
+                <div class="button-text">Доступно до 11 декабря</div>
+            </div>
+            
+            <!-- Сложная сложность -->
+            <div class="button-item">
+                <button class="button button-disabled" disabled>Сложная</button>
+                <div class="button-text">будет доступно скоро…</div>
+            </div>
+            
+            <!-- Невозможная сложность -->
+            <div class="button-item">
+                <button class="button button-disabled" disabled>НЕВОЗМОЖНАЯ</button>
+                <div class="button-text">скоро…</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Дополнительный контент для демонстрации прокрутки -->
+    <div class="extra-content">
+        <h2>Новогоднее приключение ARG</h2>
+        <p>Погрузитесь в увлекательную историю, решайте головоломки и зарабатывайте TulenmasCandy, которые можно обменять на уникальные призы. Каждый уровень сложности предлагает новые испытания и награды!</p>
+    </div>
+
+    <script>
+        // Создание снежинок
+        function createSnowflakes() {
+            const snowContainer = document.getElementById('snow');
+            const snowflakeCount = 150; // Увеличил количество снежинок
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.innerHTML = '❄';
+                
+                // Случайные параметры для снежинок
+                const size = Math.random() * 1.5 + 0.5;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 10 + 5;
+                const animationDelay = Math.random() * 5;
+                const opacity = Math.random() * 0.7 + 0.3;
+                
+                snowflake.style.left = `${left}vw`;
+                snowflake.style.fontSize = `${size}em`;
+                snowflake.style.animationDuration = `${animationDuration}s`;
+                snowflake.style.animationDelay = `${animationDelay}s`;
+                snowflake.style.opacity = opacity;
+                
+                // Добавляем разные типы снежинок
+                if (i % 3 === 0) {
+                    snowflake.innerHTML = '❅';
+                } else if (i % 5 === 0) {
+                    snowflake.innerHTML = '❆';
+                }
+                
+                snowContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Открытие сайта для легкой сложности
+        function openEasySite() {
+            window.open('https://s1.radikal.cloud/2025/11/17/8A10C802-CECC-45B4-BAA8-0484BC5962B1c88d59ef854d0f14.jpeg', '_blank');
+        }
+        
+        // Движение тюленчика при прокрутке
+        function handleScroll() {
+            const seal = document.getElementById('seal');
+            const scrollY = window.scrollY || window.pageYOffset;
+            
+            // Тюленчик двигается вверх при прокрутке вниз
+            seal.style.transform = `translateY(${-scrollY * 0.3}px)`;
+        }
+        
+        // Инициализация при загрузке страницы
+        window.onload = function() {
+            createSnowflakes();
+            window.addEventListener('scroll', handleScroll);
+        };
+    </script>
+</body>
+</html>
