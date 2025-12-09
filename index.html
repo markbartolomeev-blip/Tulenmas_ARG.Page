@@ -102,12 +102,10 @@
             margin: 0 auto;
         }
         
-        /* Элемент кнопки */
         .button-item {
             position: relative;
         }
         
-        /* Кнопки */
         .button {
             padding: 25px;
             font-size: 1.8rem;
@@ -123,29 +121,25 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        /* Легкая кнопка */
-        .button-easy {
-            background: linear-gradient(145deg, #4CAF50, #2E7D32);
-            color: white;
-            border: 2px solid #81C784;
-        }
-        
-        .button-easy:hover {
-            background: linear-gradient(145deg, #66BB6A, #388E3C);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .button-easy:active {
-            transform: translateY(-2px);
-        }
-        
-        /* Неактивные кнопки */
+        /* НЕАКТИВНАЯ кнопка (теперь Легкая) */
         .button-disabled {
             background: linear-gradient(145deg, #616161, #424242);
             color: #bdbdbd;
             cursor: not-allowed;
             border: 2px solid #9e9e9e;
+        }
+
+        /* НОВАЯ зелёная кнопка "Сложная" */
+        .button-hard {
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+            color: white;
+            border: 2px solid #81C784;
+        }
+
+        .button-hard:hover {
+            background: linear-gradient(145deg, #66BB6A, #388E3C);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
         
         /* Подписи */
@@ -359,44 +353,45 @@
         <h1 class="header">Выбери Сложность АРГ</h1>
         
         <div class="button-container">
-            <!-- Легкая сложность -->
+
+            <!-- ЛЕГКАЯ — теперь серая и отключена -->
             <div class="button-item">
-                <button class="button button-easy" onclick="openEasySite()">Легкая</button>
-                <div class="button-text">Доступно до 11 декабря</div>
+                <button class="button button-disabled" disabled>Легкая</button>
+                <div class="button-text">Сложность завершена✅</div>
             </div>
             
-            <!-- Сложная сложность -->
+            <!-- СЛОЖНАЯ — теперь зеленая, активная -->
             <div class="button-item">
-                <button class="button button-disabled" disabled>Сложная</button>
-                <div class="button-text">будет доступно скоро…</div>
+                <button class="button button-hard" onclick="openHardSite()">Сложная</button>
+                <div class="button-text">Сложность доступна!</div>
             </div>
-            
-            <!-- Невозможная сложность -->
+
+            <!-- НЕВОЗМОЖНАЯ — без изменений -->
             <div class="button-item">
                 <button class="button button-disabled" disabled>НЕВОЗМОЖНАЯ</button>
                 <div class="button-text">скоро…</div>
             </div>
+
         </div>
     </div>
     
-    <!-- Дополнительный контент для демонстрации прокрутки -->
+    <!-- Дополнительный контент -->
     <div class="extra-content">
         <h2>Новогоднее приключение ARG</h2>
-        <p>Проходи интересные загадки и головоломки, получай TulenmasCandy и обменивай на крутые призы! Все подробности можно прочитать в закрепе! </p>
+        <p>Проходи интересные загадки и головоломки, получай TulenmasCandy и обменивай на крутые призы! Все подробности можно прочитать в закрепе!</p>
     </div>
 
     <script>
         // Создание снежинок
         function createSnowflakes() {
             const snowContainer = document.getElementById('snow');
-            const snowflakeCount = 150; // Увеличил количество снежинок
+            const snowflakeCount = 150;
             
             for (let i = 0; i < snowflakeCount; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.classList.add('snowflake');
                 snowflake.innerHTML = '❄';
                 
-                // Случайные параметры для снежинок
                 const size = Math.random() * 1.5 + 0.5;
                 const left = Math.random() * 100;
                 const animationDuration = Math.random() * 10 + 5;
@@ -409,32 +404,25 @@
                 snowflake.style.animationDelay = `${animationDelay}s`;
                 snowflake.style.opacity = opacity;
                 
-                // Добавляем разные типы снежинок
-                if (i % 3 === 0) {
-                    snowflake.innerHTML = '❅';
-                } else if (i % 5 === 0) {
-                    snowflake.innerHTML = '❆';
-                }
+                if (i % 3 === 0) snowflake.innerHTML = '❅';
+                else if (i % 5 === 0) snowflake.innerHTML = '❆';
                 
                 snowContainer.appendChild(snowflake);
             }
         }
-        
-        // Открытие сайта для легкой сложности
-        function openEasySite() {
-            window.open('https://ltdfoto.ru/images/2025/11/17/8A10C802-CECC-45B4-BAA8-0484BC5962B1.jpg', '_blank');
+
+        // НОВАЯ функция — открывает сложную сложность
+        function openHardSite() {
+            window.open('https://t.me/+tlXXAtrGB0I1Y2Ri', '_blank');
         }
         
         // Движение тюленчика при прокрутке
         function handleScroll() {
             const seal = document.getElementById('seal');
             const scrollY = window.scrollY || window.pageYOffset;
-            
-            // Тюленчик двигается вверх при прокрутке вниз
             seal.style.transform = `translateY(${-scrollY * 0.3}px)`;
         }
         
-        // Инициализация при загрузке страницы
         window.onload = function() {
             createSnowflakes();
             window.addEventListener('scroll', handleScroll);
