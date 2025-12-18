@@ -46,11 +46,11 @@
             }
         }
         
-        /* Контейнер */
+        /* Контейнер - ДОБАВЛЕНО БОЛЬШЕ ОТСТУПА СНИЗУ */
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 30px 20px 100px; /* Увеличен нижний отступ для прокрутки */
             position: relative;
             z-index: 2;
             text-align: center;
@@ -59,8 +59,8 @@
         
         /* Заголовок */
         .header {
-            font-size: 3.5rem;
-            margin-bottom: 40px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
             position: relative;
             padding: 20px;
@@ -91,8 +91,45 @@
             0% { transform: translateY(-50%) rotate(0deg); }
             100% { transform: translateY(-50%) rotate(360deg); }
         }
-        
-        /* Контейнер кнопок */
+
+        /* Блок с телевизором - СДЕЛАН ПОЛУПРОЗРАЧНЫМ */
+        .tv-speech-bubble {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.85); /* Полупрозрачный белый */
+            padding: 12px 18px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            max-width: 320px;
+            backdrop-filter: blur(5px); /* Лёгкое размытие фона для красоты */
+        }
+
+        .tv-speech-bubble:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.95); /* Чуть менее прозрачный при наведении */
+        }
+
+        .tv-icon-small {
+            font-size: 1.8rem;
+            animation: creepyBlink 4s infinite;
+        }
+
+        .tv-speech-text {
+            animation: floatText 3s infinite ease-in-out;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #222;
+        }
+
+        /* Кнопки */
         .button-container {
             display: flex;
             flex-direction: column;
@@ -106,8 +143,7 @@
             position: relative;
         }
         
-        .button {
-            padding: 25px;
+        .button {padding: 25px;
             font-size: 1.8rem;
             font-weight: bold;
             border: none;
@@ -118,10 +154,9 @@
             width: 100%;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        /* НЕАКТИВНАЯ кнопка (теперь Легкая) */
+        /* Легкая – завершена */
         .button-disabled {
             background: linear-gradient(145deg, #616161, #424242);
             color: #bdbdbd;
@@ -129,203 +164,74 @@
             border: 2px solid #9e9e9e;
         }
 
-        /* НОВАЯ зелёная кнопка "Сложная" */
-        .button-hard {
+        /* Сложная – завершена серым */
+        .button-hard-done {
+            background: linear-gradient(145deg, #555, #333);
+            color: #cccccc;
+            border: 2px solid #888;
+            cursor: not-allowed;
+        }
+
+        /* НЕВОЗМОЖНАЯ – зелёная */
+        .button-impossible {
             background: linear-gradient(145deg, #4CAF50, #2E7D32);
             color: white;
             border: 2px solid #81C784;
         }
-
-        .button-hard:hover {
-            background: linear-gradient(145deg, #66BB6A, #388E3C);
+        .button-impossible:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
         
-        /* Подписи */
+        /* Надписи */
         .button-text {
             font-size: 1rem;
             margin-top: 10px;
             text-align: center;
             color: #e0e0e0;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
-        
-        /* Тюленчик */
-        .seal-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 3;
-            display: flex;
-            align-items: flex-end;
-            transition: transform 0.2s ease-out;
+
+        /* Моргающий телевизор */
+        @keyframes creepyBlink {
+            0% { opacity: 1; }
+            5% { opacity: .2; }
+            7% { opacity: 1; }
+            12% { opacity: .3; }
+            14% { opacity: 1; }
+            20% { opacity: .4; }
+            22% { opacity: 1; }
+            55% { opacity: 1; }
+            56% { opacity: 0; }
+            57% { opacity: 1; }
+            90% { opacity: .5; }
+            92% { opacity: 1; }
+            100% { opacity: 1; }
         }
-        
-        .seal {
-            font-size: 4rem;
-            margin-right: 10px;
-            animation: bounce 2s infinite;
+
+        /* Плавающий текст */
+        @keyframes floatText {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(8px); }
+            100% { transform: translateX(0px); }
         }
-        
-        .speech-bubble {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 15px;
-            border-radius: 20px;
-            max-width: 250px;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-weight: 500;
-        }
-        
-        .speech-bubble:after {
-            content: '';
-            position: absolute;
-            left: -10px;
-            bottom: 20px;
-            width: 0;
-            height: 0;
-            border: 10px solid transparent;
-            border-right-color: rgba(255, 255, 255, 0.9);
-            border-left: 0;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Елка */
-        .tree {
-            position: fixed;
-            bottom: 0;
-            right: 5%;
-            width: 150px;
-            height: 200px;
-            z-index: 1;
-        }
-        
-        .tree-top {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 80px solid #2E7D32;
-        }
-        
-        .tree-middle {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 70px solid transparent;
-            border-right: 70px solid transparent;
-            border-bottom: 100px solid #388E3C;
-        }
-        
-        .tree-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 90px solid transparent;
-            border-right: 90px solid transparent;
-            border-bottom: 120px solid #4CAF50;
-        }
-        
-        .tree-trunk {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 40px;
-            background: #5D4037;
-        }
-        
-        /* Дополнительный контент для прокрутки */
-        .extra-content {
-            height: 800px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .extra-content h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #e0f7fa;
-        }
-        
-        .extra-content p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            line-height: 1.6;
-            color: #b2ebf2;
-        }
-        
+
         /* Адаптивность */
-        @media (max-width: 768px) {
-            .header {
-                font-size: 2.5rem;
-            }
-            
-            .button {
-                font-size: 1.5rem;
-                padding: 20px;
-            }
-            
-            .tree {
-                display: none;
-            }
-            
-            .seal-container {
-                position: fixed;
-                bottom: 10px;
-                left: 10px;
-            }
-            
-            .speech-bubble {
-                max-width: 200px;
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
-            .seal {
-                font-size: 3rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .header {
                 font-size: 2rem;
+                padding: 15px;
             }
             
-            .button {
-                font-size: 1.3rem;
-                padding: 18px;
+            .tv-speech-bubble {
+                left: 15px;
+                right: 15px;
+                bottom: 15px;
+                max-width: none;
+                padding: 10px 15px;
+                border-radius: 40px;
             }
             
-            .seal {
-                font-size: 2.5rem;
-            }
-            
-            .speech-bubble {
-                max-width: 160px;
-                padding: 10px;
-                font-size: 0.8rem;
+            .tv-speech-text {
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -333,56 +239,45 @@
 <body>
     <!-- Снег -->
     <div class="snow" id="snow"></div>
-    
-    <!-- Тюленчик -->
-    <div class="seal-container" id="seal">
-        <div class="seal">🦭</div>
-        <div class="speech-bubble">Проходи ARG, зарабатывай TulenmasCandy и получай призы!</div>
+
+    <!-- Телевизор-пузырь с репликой -->
+    <div class="tv-speech-bubble" id="tvBubble" title="Перейти на сайт с кодами">
+        <div class="tv-icon-small">📺</div>
+        <div class="tv-speech-text">Сайт с кодами доступа…</div>
     </div>
-    
-    <!-- Елка -->
-    <div class="tree">
-        <div class="tree-top"></div>
-        <div class="tree-middle"></div>
-        <div class="tree-bottom"></div>
-        <div class="tree-trunk"></div>
-    </div>
-    
-    <!-- Основной контент -->
+
     <div class="container">
+
         <h1 class="header">Выбери Сложность АРГ</h1>
-        
+
         <div class="button-container">
 
-            <!-- ЛЕГКАЯ — теперь серая и отключена -->
+            <!-- ЛЕГКАЯ – завершена -->
             <div class="button-item">
                 <button class="button button-disabled" disabled>Легкая</button>
                 <div class="button-text">Сложность завершена✅</div>
             </div>
             
-            <!-- СЛОЖНАЯ — теперь зеленая, активная -->
+            <!-- СЛОЖНАЯ – теперь серой и завершена -->
             <div class="button-item">
-                <button class="button button-hard" onclick="openHardSite()">Сложная</button>
-                <div class="button-text">Сложность доступна!</div>
+                <button class="button button-hard-done" disabled>Сложная</button>
+                <div class="button-text">Сложность завершена✅</div>
             </div>
 
-            <!-- НЕВОЗМОЖНАЯ — без изменений -->
+            <!-- НЕВОЗМОЖНАЯ – зелёная -->
             <div class="button-item">
-                <button class="button button-disabled" disabled>НЕВОЗМОЖНАЯ</button>
-                <div class="button-text">скоро…</div>
+                <button class="button button-impossible" onclick="openImpossible()">НЕВОЗМОЖНАЯ</button>
+                <div class="button-text">Финальная сложность!</div>
             </div>
-
+            
+            <!-- ДОБАВЛЕННЫЙ ПУСТОЙ БЛОК ДЛЯ ПРОКРУТКИ -->
+            <div style="height: 200px; opacity: 0;">Пространство для прокрутки</div>
+            
         </div>
-    </div>
-    
-    <!-- Дополнительный контент -->
-    <div class="extra-content">
-        <h2>Новогоднее приключение ARG</h2>
-        <p>Проходи интересные загадки и головоломки, получай TulenmasCandy и обменивай на крутые призы! Все подробности можно прочитать в закрепе!</p>
     </div>
 
     <script>
-        // Создание снежинок
+        // Снежинки
         function createSnowflakes() {
             const snowContainer = document.getElementById('snow');
             const snowflakeCount = 150;
@@ -393,16 +288,13 @@
                 snowflake.innerHTML = '❄';
                 
                 const size = Math.random() * 1.5 + 0.5;
-                const left = Math.random() * 100;
-                const animationDuration = Math.random() * 10 + 5;
-                const animationDelay = Math.random() * 5;
-                const opacity = Math.random() * 0.7 + 0.3;
-                
-                snowflake.style.left = `${left}vw`;
-                snowflake.style.fontSize = `${size}em`;
-                snowflake.style.animationDuration = `${animationDuration}s`;
-                snowflake.style.animationDelay = `${animationDelay}s`;
-                snowflake.style.opacity = opacity;
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.fontSize = <meta charse
+                snowflake.style.animationDuration =arset="UTF-8">
+    <meta name=
+                snowflake.style.animationDelay = charset="UTF-8">
+    <me
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
                 
                 if (i % 3 === 0) snowflake.innerHTML = '❅';
                 else if (i % 5 === 0) snowflake.innerHTML = '❆';
@@ -411,21 +303,18 @@
             }
         }
 
-        // НОВАЯ функция — открывает сложную сложность
-        function openHardSite() {
-            window.open('https://t.me/+tlXXAtrGB0I1Y2Ri', '_blank');
+        // НЕВОЗМОЖНАЯ ссылка
+        function openImpossible() {
+            window.open("https://t.me/tulenchikARG/28", "_blank");
         }
-        
-        // Движение тюленчика при прокрутке
-        function handleScroll() {
-            const seal = document.getElementById('seal');
-            const scrollY = window.scrollY || window.pageYOffset;
-            seal.style.transform = `translateY(${-scrollY * 0.3}px)`;
-        }
-        
-        window.onload = function() {
+
+        // Открытие сайта архивов при клике на телевизор
+        document.getElementById('tvBubble').addEventListener('click', function() {
+            window.open('https://markbartolomeev-blip.github.io/Tulenmas_-Archives', '_blank');
+        });
+
+        window.onload = () => {
             createSnowflakes();
-            window.addEventListener('scroll', handleScroll);
         };
     </script>
 </body>
